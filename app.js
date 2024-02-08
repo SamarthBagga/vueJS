@@ -1,4 +1,8 @@
 const app = Vue.createApp({
-    template: '<h1>Hello World!!</h1>', // will put this in the div with app as id
+    data() {
+        return {
+            firstName:'John',
+        }
+    },
 })
 app.mount('#app')
