@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useWindowSize } from '@vueuse/core';
 import { Mesh, MeshBasicMaterial, PerspectiveCamera, Scene, SphereGeometry, WebGL1Renderer } from 'three';
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref, render, watch } from 'vue';
 
 let renderer: WebGL1Renderer;
 let camera: PerspectiveCamera;
@@ -37,20 +37,27 @@ scene.add(camera);
 
 const sphere = new Mesh(
   new SphereGeometry(1, 20, 20),
-  new MeshBasicMaterial({ color: 0x00ff00 })
+  new MeshBasicMaterial({ color: 0x008080 })
 );
 
 scene.add(sphere);
+const loop = () => {
 
+  renderer.render(scene, camera);
+  sphere.position.y += 0.01;
+  requestAnimationFrame(loop);
+  
+}
 onMounted(() => {
   renderer = new WebGL1Renderer({
     canvas: experience.value as HTMLCanvasElement,
     antialias: true,
   });
 
-  renderer.setSize(width.value, height.value);
+  updateRenderer();
+  updateCamera();
 
-  renderer.render(scene, camera);
+ loop();
 });
 </script>
 
